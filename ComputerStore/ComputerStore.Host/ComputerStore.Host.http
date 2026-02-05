@@ -1,0 +1,6 @@
+@ComputerStore.Host_HostAddress = http://localhost:5096
+
+GET {{ComputerStore.Host_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
