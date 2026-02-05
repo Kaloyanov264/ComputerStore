@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComputerStore.Models.Dto;
 
 namespace ComputerStore.DL.Interfaces
 {
-    internal interface IComputerRepository
+    public interface IComputerRepository
     {
+        void AddComputer(Computer computer);
+
+        void DeleteComputer(Guid? id);
+
+        void UpdateComputer(Computer computer);
+
+        List<Computer> GetAllComputers();
+
+        Computer? GetById(Guid? id);   
     }
 }

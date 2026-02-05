@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComputerStore.Models.Responses;
 
 namespace ComputerStore.BL.Interfaces
 {
-    internal interface ISellComputer
+    public interface ISellComputer
     {
+        SellComputerResult Sell(Guid computerId, Guid customerId);
     }
 }

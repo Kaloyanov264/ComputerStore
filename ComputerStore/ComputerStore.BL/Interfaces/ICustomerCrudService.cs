@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComputerStore.Models.Dto;
 
 namespace ComputerStore.BL.Interfaces
 {
-    internal interface ICustomerCrudService
+    public interface ICustomerCrudService
     {
+        void AddCustomer(Customer customer);
+
+        void DeleteCustomer(Guid id);
+
+        void UpdateCustomer(Customer customer);
+
+        List<Customer> GetAllCustomers();
+
+        Customer? GetById(Guid id);
     }
 }

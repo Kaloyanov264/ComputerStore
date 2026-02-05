@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ComputerStore.Models.Dto;
 
 namespace ComputerStore.Models.Responses
 {
-    internal class SellComputerResult
+    public class SellComputerResult
     {
+        public Computer Computer { get; set; }
+
+        public Customer Customer { get; set; }
+
+        public decimal Price { get; set; }
     }
 }
