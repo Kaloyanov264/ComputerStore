@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ComputerStore.Models.Requests
+﻿namespace ComputerStore.Models.Requests
 {
-    internal class AddComputerRequest
+    public class AddComputerRequest
     {
+        public string Brand { get; set; } = string.Empty;
+
+        public string Cpu { get; set; } = string.Empty;
+
+        public string Ram { get; set; } = string.Empty;
+
+        public string Storage { get; set; } = string.Empty;
+
+        public string Gpu { get; set; } = string.Empty;
+
+        public string Category { get; set; } = string.Empty;
+
+        public decimal BasePrice { get; set; }
     }
 }

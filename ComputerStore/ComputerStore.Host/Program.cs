@@ -5,11 +5,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using ComputerStore.Host.Validators;
-using FluentValidation;
-using Mapster;
-using Microsoft.OpenApi.Models;
-using Serilog;
-using Serilog.Sinks.SystemConsole.Themes;
+using ComputerStore.DL;
+using ComputerStore.BL;
 
 namespace ComputerStore.Host
 {
@@ -23,7 +20,6 @@ namespace ComputerStore.Host
                 .Enrich.FromLogContext()
                 .WriteTo.Console(theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
-
             // Add services to the container.
 
             builder.Services
@@ -47,8 +43,8 @@ namespace ComputerStore.Host
 
             builder.Services
                 .AddHealthChecks()
-                .AddCheck<MyCustomHealthCheck>("sample")
-                .AddCheck<MongoHealthCheck>("sample");
+                .AddCheck<MyCustomHealthCheck>("sample1")
+                .AddCheck<MongoHealthCheck>("sample2");
 
             var app = builder.Build();
 

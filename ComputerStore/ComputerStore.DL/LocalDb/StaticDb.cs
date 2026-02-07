@@ -2,7 +2,7 @@
 
 namespace ComputerStore.DL.LocalDb
 {
-    internal class StaticDb
+    internal static class StaticDb
     {
         public static List<Computer> Computers = new List<Computer>
         {
@@ -13,7 +13,7 @@ namespace ComputerStore.DL.LocalDb
                 Storage = "1TB NVMe SSD", 
                 Gpu = "AMD Radeon RX580 8GB GDDR5", 
                 Category = "Desktop", 
-                BasePrice = 850},
+                BasePrice = 850m},
 
             new Computer { Id = Guid.NewGuid(),
                 Brand = "Dell",
@@ -22,7 +22,7 @@ namespace ComputerStore.DL.LocalDb
                 Storage = "2TB NVMe SSD",
                 Gpu = "AMD RX 9060XT 16GB GDDR6",
                 Category = "Desktop",
-                BasePrice = 1700},
+                BasePrice = 1700m},
 
             new Computer { Id = Guid.NewGuid(),
                 Brand = "Acer",
@@ -31,7 +31,7 @@ namespace ComputerStore.DL.LocalDb
                 Storage = "1TB NVMe SSD",
                 Gpu = "NVIDIA GeForce RTX 3050 6GB GDDR6",
                 Category = "Laptop",
-                BasePrice = 1150},
+                BasePrice = 1150m},
         };
 
         public static List<Customer> Customers =
@@ -41,21 +41,24 @@ namespace ComputerStore.DL.LocalDb
                 {
                     Id = Guid.NewGuid(),
                     Name = "Ivan Ivanov",
-                    Email = "ii@gmail.com"
+                    Email = "ii@gmail.com",
+                    Discount = 150
                 },
 
                 new Customer
                 {
                     Id = Guid.NewGuid(),
                     Name = "Georgi Borisov",
-                    Email = "GeorgiB@gmail.com"
+                    Email = "GeorgiB@gmail.com",
+                    Discount = 300
                 },
 
                 new Customer
                 {
                     Id = Guid.NewGuid(),
                     Name = "Maria Ivanova",
-                    Email = "MimiI@gmail.com"
+                    Email = "MimiI@gmail.com",
+                    Discount = 200
                 }
             };
     }
