@@ -7,7 +7,5 @@ namespace ComputerStore.Models.Requests
         public Computer Computer { get; set; }
 
         public Customer Customer { get; set; }
-
-        public decimal Price { get; set; }
     }
 }
