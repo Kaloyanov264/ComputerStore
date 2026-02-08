@@ -1,6 +1,7 @@
 ﻿using ComputerStore.BL.Interfaces;
 using ComputerStore.Models.Dto;
 using ComputerStore.Models.Requests;
+using ComputerStore.Models.Responses;
 using FluentValidation;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -51,26 +52,29 @@ namespace ComputerStore.Host.Controllers
 
             _computerCrudService.AddComputer(computer);
 
-            return Ok();
+            return Ok(new AddComputerResult
+            {
+                Id = computer.Id
+            });
         }
 
         [HttpDelete]
-        public IActionResult DeleteComputer(Guid id)
+        public IActionResult DeleteComputer([FromQuery] DeleteComputerRequest computerRequest)
         {
-            if (id == Guid.Empty)
+            if (computerRequest.Id == Guid.Empty)
             {
                 return BadRequest("Id must be a valid Guid.");
             }
 
-            var computer = _computerCrudService.GetById(id);
+            var computer = _computerCrudService.GetById(computerRequest.Id);
             if (computer == null)
             {
-                return NotFound($"Computer with ID {id} not found.");
+                return NotFound($"Computer with ID {computerRequest.Id} not found.");
             }
 
-            _computerCrudService.DeleteComputer(id);
+            _computerCrudService.DeleteComputer(computerRequest.Id);
 
-            return Ok();
+            return Ok(new DeleteCustomerResult());
         }
 
         [HttpGet(nameof(GetById))]
@@ -91,19 +95,31 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpPost(nameof(UpdateComputer))]
-        public IActionResult UpdateComputer([FromBody] Computer? computer)
+        public IActionResult UpdateComputer([FromBody] UpdateComputerRequest computerRequest)
         {
-            if (computer == null)
+            if (computerRequest == null)
             {
                 return BadRequest("Computer data is null.");
             }
-            var existingComputer = _computerCrudService.GetById(computer.Id);
+            var existingComputer = _computerCrudService.GetById(computerRequest.Id);
             if (existingComputer == null)
             {
-                return NotFound($"Computer with ID {computer.Id} not found.");
+                return NotFound($"Computer with ID {computerRequest.Id} not found.");
             }
+
+            var computer = _mapper.Map<Computer>(computerRequest);
             _computerCrudService.UpdateComputer(computer);
-            return Ok();
+            return Ok(new UpdateComputerResult
+            {
+                Id = computer.Id,
+                Brand = computer.Brand,
+                Cpu = computer.Cpu,
+                Ram = computer.Ram,
+                Storage = computer.Storage,
+                Gpu = computer.Gpu,
+                Category = computer.Category,
+                BasePrice = computer.BasePrice
+            });
         }
     }
 }

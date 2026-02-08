@@ -1,6 +1,7 @@
 ﻿using ComputerStore.BL.Interfaces;
 using ComputerStore.Models.Dto;
 using ComputerStore.Models.Requests;
+using ComputerStore.Models.Responses;
 using FluentValidation;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -48,21 +49,24 @@ namespace ComputerStore.Host.Controllers
 
             _customerCrudService.AddCustomer(customer);
 
-            return Ok();
+            return Ok(new AddCustomerResult
+            {
+                Id = customer.Id
+            });
         }
 
         [HttpDelete]
-        public IActionResult DeleteCustomer(Guid id)
+        public IActionResult DeleteCustomer([FromQuery] DeleteCustomerRequest customerRequest)
         {
-            var customer = _customerCrudService.GetById(id);
+            var customer = _customerCrudService.GetById(customerRequest.Id);
             if (customer == null)
             {
-                return NotFound($"Customer with ID {id} not found.");
+                return NotFound($"Customer with ID {customerRequest.Id} not found.");
             }
 
-            _customerCrudService.DeleteCustomer(id);
+            _customerCrudService.DeleteCustomer(customerRequest.Id);
 
-            return Ok();
+            return Ok(new DeleteCustomerResult());
         }
 
         [HttpGet(nameof(GetById))]
@@ -78,19 +82,27 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpPost(nameof(UpdateCustomer))]
-        public IActionResult UpdateCustomer([FromBody] Customer? customer)
+        public IActionResult UpdateCustomer([FromBody] UpdateCustomerRequest customerRequest)
         {
-            if (customer == null)
+            if (customerRequest == null)
             {
                 return BadRequest("Customer data is null.");
             }
-            var existingCustomer = _customerCrudService.GetById(customer.Id);
+            var existingCustomer = _customerCrudService.GetById(customerRequest.Id);
             if (existingCustomer == null)
             {
-                return NotFound($"Customer with ID {customer.Id} not found.");
+                return NotFound($"Customer with ID {customerRequest.Id} not found.");
             }
+
+            var customer = _mapper.Map<Customer>(customerRequest);
             _customerCrudService.UpdateCustomer(customer);
-            return Ok();
+            return Ok(new UpdateCustomerResult
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email,
+                Discount = customer.Discount
+            });
         }
     }
 }

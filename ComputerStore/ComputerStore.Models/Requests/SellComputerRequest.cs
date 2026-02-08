@@ -4,8 +4,7 @@ namespace ComputerStore.Models.Requests
 {
     public class SellComputerRequest
     {
-        public Computer Computer { get; set; }
-
-        public Customer Customer { get; set; }
+        public Guid ComputerId { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }
