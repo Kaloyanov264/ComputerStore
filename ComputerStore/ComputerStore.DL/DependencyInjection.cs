@@ -1,4 +1,5 @@
-﻿using ComputerStore.DL.Interfaces;
+﻿using ComputerStore.DL.Infrastructure.HostedServices;
+using ComputerStore.DL.Interfaces;
 using ComputerStore.DL.Repositories;
 using ComputerStore.Models.Configurations;
 using Microsoft.Extensions.Configuration;
