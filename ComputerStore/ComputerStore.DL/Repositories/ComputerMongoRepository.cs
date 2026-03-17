@@ -27,13 +27,13 @@ namespace ComputerStore.DL.Repositories
             _computersCollection = database.GetCollection<Computer>($"{nameof(Computer)}s");
         }
 
-        public void AddComputer(Computer computer)
+        public async Task AddComputer(Computer computer)
         {
             if (computer == null) return;
 
             try
             {
-                _computersCollection.InsertOne(computer);
+                await _computersCollection.InsertOneAsync(computer);
             }
             catch (Exception e)
             {
@@ -41,13 +41,13 @@ namespace ComputerStore.DL.Repositories
             }
         }
 
-        public void DeleteComputer(Guid? id)
+        public async Task DeleteComputer(Guid? id)
         {
             if (id == null || id == Guid.Empty) return;
 
             try
             {
-                var result = _computersCollection.DeleteOne(c => c.Id == id);
+                var result = await _computersCollection.DeleteOneAsync(c => c.Id == id);
 
                 if (result.DeletedCount == 0)
                 {
@@ -60,19 +60,26 @@ namespace ComputerStore.DL.Repositories
             }
         }
 
-        public List<Computer> GetAllComputers()
+        public async Task<List<Computer>> GetAllComputers()
         {
-            return _computersCollection.Find(_ => true).ToList();
+            try
+            {
+                return await _computersCollection.Find(_ => true).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error in method {nameof(GetAllComputers)}:{e.Message}-{e.StackTrace}");
+                return new List<Computer>();
+            }
         }
 
-        public Computer? GetById(Guid? id)
+        public async Task<Computer?> GetById(Guid? id)
         {
             if (id == null || id == Guid.Empty) return default;
 
             try
             {
-                return _computersCollection.Find(c => c.Id == id)
-                    .FirstOrDefault();
+                return await _computersCollection.Find(c => c.Id == id).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -82,13 +89,13 @@ namespace ComputerStore.DL.Repositories
             return default;
         }
 
-        public void UpdateComputer(Computer computer)
+        public async Task UpdateComputer(Computer computer)
         {
             if (computer == null || computer.Id == Guid.Empty) return;
 
             try
             {
-                var result = _computersCollection.ReplaceOne(
+                var result = await _computersCollection.ReplaceOneAsync(
                     c => c.Id == computer.Id,
                     computer
                 );

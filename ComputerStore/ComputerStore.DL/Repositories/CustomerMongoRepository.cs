@@ -27,13 +27,13 @@ namespace ComputerStore.DL.Repositories
             _customerCollection = database.GetCollection<Customer>($"{nameof(Customer)}s");
         }
 
-        public void AddCustomer(Customer customer)
+        public async Task AddCustomer(Customer customer)
         {
             if (customer == null) return;
 
             try
             {
-                _customerCollection.InsertOne(customer);
+                await _customerCollection.InsertOneAsync(customer);
             }
             catch (Exception e)
             {
@@ -41,13 +41,13 @@ namespace ComputerStore.DL.Repositories
             }
         }
 
-        public void DeleteCustomer(Guid? id)
+        public async Task DeleteCustomer(Guid? id)
         {
             if (id == null || id == Guid.Empty) return;
 
             try
             {
-                var result = _customerCollection.DeleteOne(c => c.Id == id);
+                var result = await _customerCollection.DeleteOneAsync(c => c.Id == id);
 
                 if (result.DeletedCount == 0)
                 {
@@ -60,14 +60,13 @@ namespace ComputerStore.DL.Repositories
             }
         }
 
-        public Customer? GetById(Guid? id)
+        public async Task<Customer?> GetById(Guid? id)
         {
             if (id == null || id == Guid.Empty) return default;
 
             try
             {
-                return _customerCollection.Find(c => c.Id == id)
-                    .FirstOrDefault();
+                return await _customerCollection.Find(c => c.Id == id).FirstOrDefaultAsync();
             }
             catch (Exception e)
             {
@@ -77,18 +76,26 @@ namespace ComputerStore.DL.Repositories
             return default;
         }
 
-        public List<Customer> GetAllCustomers()
+        public async Task<List<Customer>> GetAllCustomers()
         {
-            return _customerCollection.Find(_ => true).ToList();
+            try
+            {
+                return await _customerCollection.Find(_ => true).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error in method {nameof(GetAllCustomers)}:{e.Message}-{e.StackTrace}");
+                return new List<Customer>();
+            }
         }
 
-        public void UpdateCustomer(Customer customer)
+        public async Task UpdateCustomer(Customer customer)
         {
             if (customer == null || customer.Id == Guid.Empty) return;
 
             try
             {
-                var result = _customerCollection.ReplaceOne(
+                var result = await _customerCollection.ReplaceOneAsync(
                     c => c.Id == customer.Id,
                     customer
                 );

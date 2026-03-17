@@ -4,13 +4,13 @@ namespace ComputerStore.DL.Interfaces
 {
     public interface ICustomerRepository
     {
-        void AddCustomer(Customer customer);
+        Task AddCustomer(Customer customer);
 
-        void DeleteCustomer(Guid? id);
+        Task DeleteCustomer(Guid? id);
 
-        List<Customer> GetAllCustomers();
+        Task<List<Customer>> GetAllCustomers();
 
-        Customer? GetById(Guid? id);
+        Task<Customer?> GetById(Guid? id);
 
         void UpdateCustomer(Customer customer);
     }
