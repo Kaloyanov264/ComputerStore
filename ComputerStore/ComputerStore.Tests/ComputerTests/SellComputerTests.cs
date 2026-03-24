@@ -11,14 +11,14 @@ namespace ComputerStore.Tests.ComputerTests
         Mock<ICustomerRepository> _customerRepositoryMock;
 
         [Fact]
-        public void Sell_Return_Ok()
+        public async Task Sell_Return_Ok()
         {
             _computerCrudServiceMock = new Mock<IComputerCrudService>();
             _customerRepositoryMock = new Mock<ICustomerRepository>();
             var expectedPrice = 800m;
 
             _computerCrudServiceMock.Setup(x => x.GetById(It.IsAny<Guid>()))
-                .Returns(new Models.Dto.Computer
+                .ReturnsAsync(new Models.Dto.Computer
                 {
                     Id = Guid.NewGuid(),
                     Brand = "MSI",
@@ -31,7 +31,7 @@ namespace ComputerStore.Tests.ComputerTests
                 });
 
             _customerRepositoryMock.Setup(x => x.GetById(It.IsAny<Guid>()))
-                .Returns(new Models.Dto.Customer
+                .ReturnsAsync(new Models.Dto.Customer
                 {
                     Id = Guid.NewGuid(),
                     Name = "Martin Todorov",
@@ -42,7 +42,7 @@ namespace ComputerStore.Tests.ComputerTests
             var sellService = new BL.Services.SellComputer(_computerCrudServiceMock.Object, _customerRepositoryMock.Object);
 
             //act
-            var result = sellService.Sell(Guid.NewGuid(), Guid.NewGuid());
+            var result = await sellService.Sell(Guid.NewGuid(), Guid.NewGuid());
 
             //assert
             Assert.NotNull(result);
@@ -50,14 +50,14 @@ namespace ComputerStore.Tests.ComputerTests
         }
 
         [Fact]
-        public void Sell_When_Customer_Missing()
+        public async Task Sell_When_Customer_Missing()
         {
             _computerCrudServiceMock = new Mock<IComputerCrudService>();
             _customerRepositoryMock = new Mock<ICustomerRepository>();
             var expectedPrice = 800m;
 
             _computerCrudServiceMock.Setup(x => x.GetById(It.IsAny<Guid>()))
-                .Returns(new Models.Dto.Computer
+                .ReturnsAsync(new Models.Dto.Computer
                 {
                     Id = Guid.NewGuid(),
                     Brand = "MSI",
@@ -70,12 +70,12 @@ namespace ComputerStore.Tests.ComputerTests
                 });
 
             _customerRepositoryMock.Setup(x => x.GetById(It.IsAny<Guid>()))
-                .Returns((Customer)null);
+                .ReturnsAsync((Customer)null);
 
             var sellService = new BL.Services.SellComputer(_computerCrudServiceMock.Object, _customerRepositoryMock.Object);
 
             //act + assert
-            var ex = Assert.Throws<ArgumentException>(() => sellService.Sell(Guid.NewGuid(), Guid.NewGuid()));
+            var ex = await Assert.ThrowsAsync<ArgumentException>(() => sellService.Sell(Guid.NewGuid(), Guid.NewGuid()));
             //var result = sellService.Sell(Guid.NewGuid(), Guid.NewGuid());
 
             //assert

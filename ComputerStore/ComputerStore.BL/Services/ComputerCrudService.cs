@@ -13,7 +13,7 @@ namespace ComputerStore.BL.Services
             _computerRepository = computerRepository;
         }
 
-        public void AddComputer(Computer computer)
+        public async Task AddComputer(Computer computer)
         {
             if (computer == null) return;
 
@@ -22,27 +22,27 @@ namespace ComputerStore.BL.Services
                 computer!.Id = Guid.NewGuid();
             }
 
-            _computerRepository.AddComputer(computer);
+            await _computerRepository.AddComputer(computer);
         }
 
-        public void DeleteComputer(Guid id)
+        public async Task DeleteComputer(Guid id)
         {
-            _computerRepository.DeleteComputer(id);
+            await _computerRepository.DeleteComputer(id);
         }
 
-        public List<Computer> GetAllComputers()
+        public async Task<List<Computer>> GetAllComputers()
         {
-            return _computerRepository.GetAllComputers();
+            return await _computerRepository.GetAllComputers();
         }
 
-        public Computer? GetById(Guid id)
+        public async Task<Computer?> GetById(Guid id)
         {
-            return _computerRepository.GetById(id);
+            return await _computerRepository.GetById(id);
         }
 
-        public void UpdateComputer(Computer computer)
+        public async Task UpdateComputer(Computer computer)
         {
-            _computerRepository.UpdateComputer(computer);
+            await _computerRepository.UpdateComputer(computer);
         }
     }
 }

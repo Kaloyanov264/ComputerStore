@@ -13,29 +13,29 @@ namespace ComputerStore.BL.Services
             _customerRepository = customerRepository;
         }
 
-        public void AddCustomer(Customer customer)
+        public async Task AddCustomer(Customer customer)
         {
-            _customerRepository.AddCustomer(customer);
+            await _customerRepository.AddCustomer(customer);
         }
 
-        public void DeleteCustomer(Guid id)
+        public async Task DeleteCustomer(Guid id)
         {
-            _customerRepository.DeleteCustomer(id);
+            await _customerRepository.DeleteCustomer(id);
         }
 
-        public List<Customer> GetAllCustomers()
+        public async Task<List<Customer>> GetAllCustomers()
         {
-            return _customerRepository.GetAllCustomers();
+            return await _customerRepository.GetAllCustomers();
         }
 
-        public Customer? GetById(Guid id)
+        public async Task<Customer?> GetById(Guid id)
         {
-            return _customerRepository.GetById(id);
+            return await _customerRepository.GetById(id);
         }
 
-        public void UpdateCustomer(Customer customer)
+        public async Task UpdateCustomer(Customer customer)
         {
-            _customerRepository.UpdateCustomer(customer);
+            await _customerRepository.UpdateCustomer(customer);
         }
     }
 }

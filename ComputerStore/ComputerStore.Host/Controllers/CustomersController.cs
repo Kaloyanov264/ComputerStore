@@ -24,14 +24,14 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var customers = _customerCrudService.GetAllCustomers();
+            var customers = await _customerCrudService.GetAllCustomers();
             return Ok(customers);
         }
 
         [HttpPost(nameof(AddCustomer))]
-        public IActionResult AddCustomer([FromBody] AddCustomerRequest? customerRequest)
+        public async Task<IActionResult> AddCustomer([FromBody] AddCustomerRequest? customerRequest)
         {
             if (customerRequest == null)
             {
@@ -47,7 +47,7 @@ namespace ComputerStore.Host.Controllers
 
             var customer = _mapper.Map<Customer>(customerRequest);
 
-            _customerCrudService.AddCustomer(customer);
+            await _customerCrudService.AddCustomer(customer);
 
             return Ok(new AddCustomerResult
             {
@@ -56,7 +56,7 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteCustomer([FromQuery] DeleteCustomerRequest customerRequest)
+        public async Task<IActionResult> DeleteCustomer([FromQuery] DeleteCustomerRequest customerRequest)
         {
             var customer = _customerCrudService.GetById(customerRequest.Id);
             if (customer == null)
@@ -64,15 +64,15 @@ namespace ComputerStore.Host.Controllers
                 return NotFound($"Customer with ID {customerRequest.Id} not found.");
             }
 
-            _customerCrudService.DeleteCustomer(customerRequest.Id);
+            await _customerCrudService.DeleteCustomer(customerRequest.Id);
 
             return Ok(new DeleteCustomerResult());
         }
 
         [HttpGet(nameof(GetById))]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var customer = _customerCrudService.GetById(id);
+            var customer = await _customerCrudService.GetById(id);
 
             if (customer == null)
             {
@@ -82,7 +82,7 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpPost(nameof(UpdateCustomer))]
-        public IActionResult UpdateCustomer([FromBody] UpdateCustomerRequest customerRequest)
+        public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerRequest customerRequest)
         {
             if (customerRequest == null)
             {
@@ -95,7 +95,7 @@ namespace ComputerStore.Host.Controllers
             }
 
             var customer = _mapper.Map<Customer>(customerRequest);
-            _customerCrudService.UpdateCustomer(customer);
+            await _customerCrudService.UpdateCustomer(customer);
             return Ok(new UpdateCustomerResult
             {
                 Id = customer.Id,

@@ -4,6 +4,6 @@ namespace ComputerStore.BL.Interfaces
 {
     public interface ISellComputer
     {
-        SellComputerResult Sell(Guid computerId, Guid customerId);
+        Task<SellComputerResult> Sell(Guid computerId, Guid customerId);
     }
 }

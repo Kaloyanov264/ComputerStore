@@ -15,11 +15,11 @@ namespace ComputerStore.BL.Services
             _customerRepository = customerRepository;
         }
 
-        public SellComputerResult Sell(Guid computerId, Guid customerId)
+        public async Task<SellComputerResult> Sell(Guid computerId, Guid customerId)
         {
-            var computer = _computerCrudService.GetById(computerId);
+            var computer = await _computerCrudService.GetById(computerId);
 
-            var customer = _customerRepository.GetById(customerId);
+            var customer = await _customerRepository.GetById(customerId);
 
             if (computer == null || customer == null)
             {

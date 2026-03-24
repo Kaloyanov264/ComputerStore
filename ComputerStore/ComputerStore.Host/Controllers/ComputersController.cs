@@ -27,14 +27,14 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpGet(nameof(GetAll))]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var computers = _computerCrudService.GetAllComputers();
+            var computers = await _computerCrudService.GetAllComputers();
             return Ok(computers);
         }
 
         [HttpPost(nameof(AddComputer))]
-        public IActionResult AddComputer([FromBody] AddComputerRequest? computerRequest)
+        public async Task<IActionResult> AddComputer([FromBody] AddComputerRequest? computerRequest)
         {
             if (computerRequest == null)
             {
@@ -50,7 +50,7 @@ namespace ComputerStore.Host.Controllers
 
             var computer = _mapper.Map<Computer>(computerRequest);
 
-            _computerCrudService.AddComputer(computer);
+            await _computerCrudService.AddComputer(computer);
 
             return Ok(new AddComputerResult
             {
@@ -59,7 +59,7 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteComputer([FromQuery] DeleteComputerRequest computerRequest)
+        public async Task<IActionResult> DeleteComputer([FromQuery] DeleteComputerRequest computerRequest)
         {
             if (computerRequest.Id == Guid.Empty)
             {
@@ -72,20 +72,20 @@ namespace ComputerStore.Host.Controllers
                 return NotFound($"Computer with ID {computerRequest.Id} not found.");
             }
 
-            _computerCrudService.DeleteComputer(computerRequest.Id);
+            await _computerCrudService.DeleteComputer(computerRequest.Id);
 
             return Ok(new DeleteCustomerResult());
         }
 
         [HttpGet(nameof(GetById))]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             if (id == Guid.Empty)
             {
                 return BadRequest("Id must be a valid Guid.");
             }
 
-            var computer = _computerCrudService.GetById(id);
+            var computer = await _computerCrudService.GetById(id);
 
             if (computer == null)
             {
@@ -95,7 +95,7 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpPost(nameof(UpdateComputer))]
-        public IActionResult UpdateComputer([FromBody] UpdateComputerRequest computerRequest)
+        public async Task<IActionResult> UpdateComputer([FromBody] UpdateComputerRequest computerRequest)
         {
             if (computerRequest == null)
             {
@@ -108,7 +108,7 @@ namespace ComputerStore.Host.Controllers
             }
 
             var computer = _mapper.Map<Computer>(computerRequest);
-            _computerCrudService.UpdateComputer(computer);
+            await _computerCrudService.UpdateComputer(computer);
             return Ok(new UpdateComputerResult
             {
                 Id = computer.Id,

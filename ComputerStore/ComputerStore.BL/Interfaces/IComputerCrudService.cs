@@ -4,14 +4,14 @@ namespace ComputerStore.BL.Interfaces
 {
     public interface IComputerCrudService
     {
-        void AddComputer(Computer computer);
+        Task AddComputer(Computer computer);
 
-        void DeleteComputer(Guid id);
+        Task DeleteComputer(Guid id);
 
-        void UpdateComputer(Computer computer);
+        Task UpdateComputer(Computer computer);
 
-        List<Computer> GetAllComputers();
+        Task<List<Computer>> GetAllComputers();
 
-        Computer? GetById(Guid id);
+        Task<Computer?> GetById(Guid id);
     }
 }
