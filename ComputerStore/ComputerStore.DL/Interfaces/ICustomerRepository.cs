@@ -12,6 +12,6 @@ namespace ComputerStore.DL.Interfaces
 
         Task<Customer?> GetById(Guid? id);
 
-        void UpdateCustomer(Customer customer);
+        Task UpdateCustomer(Customer customer);
     }
 }
