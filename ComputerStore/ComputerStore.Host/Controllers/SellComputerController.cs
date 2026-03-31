@@ -16,11 +16,11 @@ namespace ComputerStore.Host.Controllers
         }
 
         [HttpPost("Sell")]
-        public IActionResult SellComputer([FromBody] SellComputerRequest request)
+        public async Task<IActionResult> SellComputer([FromBody] SellComputerRequest request)
         {
             try
             {
-                var result = _sellComputer.Sell(request.ComputerId, request.CustomerId);
+                var result = await _sellComputer.Sell(request.ComputerId, request.CustomerId);
                 return Ok(result);
             }
 
