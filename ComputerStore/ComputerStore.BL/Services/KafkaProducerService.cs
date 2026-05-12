@@ -11,15 +11,15 @@ namespace ComputerStore.BL.Services
 
         public KafkaProducerService(IConfiguration config)
         {
-            _topic = config["KafkaSettings:SalesTopic"];
+            _topic = "pu-chat";
 
             var producerConfig = new ProducerConfig
             {
-                BootstrapServers = config["KafkaSettings:BootstrapServers"],
+                BootstrapServers = "kafka-210718-0.cloudclusters.net:10020",
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.ScramSha256,
-                SaslUsername = config["KafkaSettings:Username"],
-                SaslPassword = config["KafkaSettings:Password"],
+                SaslUsername = "puchat",
+                SaslPassword = "1234567q",
                 EnableSslCertificateVerification = false 
             };
 
