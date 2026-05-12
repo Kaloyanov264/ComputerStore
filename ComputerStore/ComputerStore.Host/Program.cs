@@ -1,12 +1,14 @@
+using ComputerStore.BL;
+using ComputerStore.BL.Interfaces;
+using ComputerStore.DL;
 using ComputerStore.Host.HealthChecks;
+using ComputerStore.Host.HostedServices;
+using ComputerStore.Host.Validators;
 using FluentValidation;
 using Mapster;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
-using ComputerStore.Host.Validators;
-using ComputerStore.DL;
-using ComputerStore.BL;
 
 namespace ComputerStore.Host
 {
@@ -45,6 +47,8 @@ namespace ComputerStore.Host
                 .AddHealthChecks()
                 .AddCheck<MyCustomHealthCheck>("sample1")
                 .AddCheck<MongoHealthCheck>("sample2");
+
+            builder.Services.AddHostedService<KafkaConsumerHostedService>();
 
             var app = builder.Build();
 

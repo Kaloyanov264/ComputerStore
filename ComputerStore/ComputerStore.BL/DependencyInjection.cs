@@ -12,7 +12,9 @@ namespace ComputerStore.BL
             services
                 .AddSingleton<IComputerCrudService, ComputerCrudService>()
                 .AddSingleton<ICustomerCrudService, CustomerCrudService>()
-                .AddSingleton<ISellComputer, SellComputer>();
+                .AddSingleton<ISellComputer, SellComputer>()
+                .AddSingleton<IKafkaProducerService, KafkaProducerService>();
+
             return services;
         }
     }
