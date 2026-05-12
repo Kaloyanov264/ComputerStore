@@ -28,7 +28,6 @@ namespace ComputerStore.Host.HostedServices
             _consumer = new ConsumerBuilder<int, string>(consumerConfig).Build();
         }
 
-        // Този метод се стартира автоматично при пускане на приложението
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _consumer.Subscribe(_topic);
@@ -45,7 +44,6 @@ namespace ComputerStore.Host.HostedServices
                 }
                 catch (OperationCanceledException)
                 {
-                    // Нормално спиране на приложението
                 }
                 finally
                 {
